@@ -1,7 +1,5 @@
 package com.soebes.tools.optohu;
 
-import static com.soebes.tools.optohu.Markdown.intoPost;
-
 import java.nio.file.Files;
 import java.nio.file.Path;
 import org.junit.jupiter.api.Test;
@@ -15,7 +13,7 @@ class OpToHuTest {
     var pathStream = DirectoryTool.readFilesRecursively(resources);
     var listOfFiles = pathStream.stream().filter(Files::isRegularFile).toList();
 
-    var collect = listOfFiles.stream().map(FileTool::intoLines).map(intoPost).toList();
+    var collect = listOfFiles.stream().map(File::intoLines).map(Markdown.intoPost).toList();
     collect.forEach(s -> System.out.println("s = " + s));
   }
 
@@ -23,6 +21,6 @@ class OpToHuTest {
   void readAllLines() {
     var markdownFile = Path.of(
         "src/test/resources/source/_posts/2019/01/2019-01-21-apache-maven-invoker-plugin-version-3-dot-2-0-released.md");
-    var fileLines = FileTool.intoLines(markdownFile);
+    var fileLines = File.intoLines(markdownFile);
   }
 }

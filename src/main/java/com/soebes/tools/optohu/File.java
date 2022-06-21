@@ -5,7 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
-interface FileTool {
+interface File {
 
   static List<String> intoLines(Path markdownFile) {
     try {

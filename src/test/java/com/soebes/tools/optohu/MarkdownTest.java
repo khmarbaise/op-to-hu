@@ -36,7 +36,7 @@ class MarkdownTest {
   void second_test() throws IOException {
     var markdownPost = Path.of(
         "src/test/resources/source/_posts/2019/01/2019-01-21-apache-maven-invoker-plugin-version-3-dot-2-0-released.md");
-    var fileContent = FileTool.intoLines(markdownPost);
+    var fileContent = File.intoLines(markdownPost);
 
     var post = Markdown.intoPost.apply(fileContent);
     System.out.println("post = " + post);

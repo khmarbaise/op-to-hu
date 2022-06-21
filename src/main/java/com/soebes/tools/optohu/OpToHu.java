@@ -16,7 +16,7 @@ class OpToHu {
     var pathStream = DirectoryTool.readFilesRecursively(Paths.get(args[0]));
     var listOfFiles = pathStream.stream().filter(Files::isRegularFile).toList();
 
-    var collect = listOfFiles.stream().map(FileTool::intoLines).map(intoPost).toList();
+    var collect = listOfFiles.stream().map(File::intoLines).map(intoPost).toList();
     collect.forEach(s -> System.out.println("s = " + s));
   }
 }
