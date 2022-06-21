@@ -1,5 +1,5 @@
 package com.soebes.tools.optohu;
 
-public enum Layout {
+enum Layout {
   post
 }

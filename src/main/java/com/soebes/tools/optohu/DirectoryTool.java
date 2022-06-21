@@ -5,7 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
-public interface DirectoryTool {
+interface DirectoryTool {
 
   static List<Path> readFilesRecursively(Path resources) {
     try (var stream = Files.walk(resources, Integer.MAX_VALUE)) {

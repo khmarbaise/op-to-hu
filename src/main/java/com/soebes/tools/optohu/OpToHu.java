@@ -1,8 +1,7 @@
 package com.soebes.tools.optohu;
 
-import static java.util.stream.Collectors.toList;
+import static com.soebes.tools.optohu.Markdown.intoPost;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -12,16 +11,12 @@ import java.nio.file.Paths;
 class OpToHu {
 
   public static void main(String[] args) {
-
     System.out.println("Op-To-Hu (Octopress to Hugo) Converter");
-    try {
 
-      var fileCollection = Files.list(Paths.get(args[0]))
-          .filter(Files::isRegularFile)
-          .collect(toList());
+    var pathStream = DirectoryTool.readFilesRecursively(Paths.get(args[0]));
+    var listOfFiles = pathStream.stream().filter(Files::isRegularFile).toList();
 
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    var collect = listOfFiles.stream().map(FileTool::intoLines).map(intoPost).toList();
+    collect.forEach(s -> System.out.println("s = " + s));
   }
 }

@@ -3,19 +3,20 @@ package com.soebes.tools.optohu;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
 import java.util.regex.Pattern;
 
-public final class MarkdownToPost {
+interface Markdown {
 
-  private static final Pattern TITLE = Pattern.compile("^title: \"(.*?)\"");
+  Pattern TITLE = Pattern.compile("^title: \"(.*?)\"");
 
   //date: 2019-01-21 19:45:57
-  private static final Pattern DATETIME = Pattern.compile("^date: (.*?)");
+  Pattern DATETIME = Pattern.compile("^date: (.*?)");
 
   // categories: [Neuigkeiten,BM,Maven,Maven-Plugins,Maven-Plugin-Releases]
-  private static final Pattern CATEGORIES = Pattern.compile("^categories: \\[(.*?)\\]");
+  Pattern CATEGORIES = Pattern.compile("^categories: \\[(.*?)\\]");
 
-  public static Post convertIntoPost(List<String> lines) {
+  Function<List<String>, Post> intoPost = lines -> {
     // check minimum size (number of lines) 7
     if (!lines.get(0).equals("---")) {
       throw new IllegalStateException("Beginning of the post is not correct missing ---");
@@ -60,5 +61,6 @@ public final class MarkdownToPost {
     }
 
     return new Post(layout, title, dateTime, categories, postLines);
-  }
+  };
+
 }

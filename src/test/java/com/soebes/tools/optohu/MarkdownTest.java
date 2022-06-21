@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 
-class MarkdownToPostTest {
+class MarkdownTest {
 
   private static String HEADER = """
       ---
@@ -23,7 +23,7 @@ class MarkdownToPostTest {
   @Test
   void basicConversion() {
     var split = Arrays.stream(HEADER.split(System.lineSeparator())).map(String::trim).collect(Collectors.toList());
-    var post = MarkdownToPost.convertIntoPost(split);
+    var post = Markdown.intoPost.apply(split);
     assertThat(post.layout()).isEqualTo(Layout.post);
     assertThat(post.title()).isEqualTo("Apache Maven Assembly Plugin Version 3.1.1 Released");
     assertThat(post.publishingTime()).isEqualTo("2019-01-02 23:36:42");
@@ -38,7 +38,7 @@ class MarkdownToPostTest {
         "src/test/resources/source/_posts/2019/01/2019-01-21-apache-maven-invoker-plugin-version-3-dot-2-0-released.md");
     var fileContent = FileTool.intoLines(markdownPost);
 
-    var post = MarkdownToPost.convertIntoPost(fileContent);
+    var post = Markdown.intoPost.apply(fileContent);
     System.out.println("post = " + post);
   }
 }

@@ -1,5 +1,7 @@
 package com.soebes.tools.optohu;
 
+import static com.soebes.tools.optohu.Markdown.intoPost;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import org.junit.jupiter.api.Test;
@@ -13,7 +15,7 @@ class OpToHuTest {
     var pathStream = DirectoryTool.readFilesRecursively(resources);
     var listOfFiles = pathStream.stream().filter(Files::isRegularFile).toList();
 
-    var collect = listOfFiles.stream().map(FileTool::intoLines).map(MarkdownToPost::convertIntoPost).toList();
+    var collect = listOfFiles.stream().map(FileTool::intoLines).map(intoPost).toList();
     collect.forEach(s -> System.out.println("s = " + s));
   }
 
