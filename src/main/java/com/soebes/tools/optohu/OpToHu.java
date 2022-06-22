@@ -15,12 +15,13 @@ class OpToHu {
     out.println("Op-To-Hu (Octopress to Hugo) Converter");
 
     var pathStream = DirectoryTool.readFilesRecursively(Paths.get(args[0]));
-    var listOfFiles = pathStream.stream()
+    var markdownFiles = pathStream.stream()
         .filter(Files::isRegularFile)
         .filter(s -> s.toString().endsWith(".md"))
         .toList();
 
-    var blogPosts = listOfFiles.stream().map(File::intoLines).map(intoPost).toList();
+    var blogPosts = markdownFiles.stream().map(File::intoLines).map(intoPost).toList();
+
     blogPosts.forEach(s -> out.println("s = " + s));
 
     out.println("Number of blog entries: = " + blogPosts.size());
