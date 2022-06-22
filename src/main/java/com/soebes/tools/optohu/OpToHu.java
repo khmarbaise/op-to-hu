@@ -1,6 +1,7 @@
 package com.soebes.tools.optohu;
 
 import static com.soebes.tools.optohu.Markdown.intoPost;
+import static java.lang.System.out;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -11,7 +12,7 @@ import java.nio.file.Paths;
 class OpToHu {
 
   public static void main(String[] args) {
-    System.out.println("Op-To-Hu (Octopress to Hugo) Converter");
+    out.println("Op-To-Hu (Octopress to Hugo) Converter");
 
     var pathStream = DirectoryTool.readFilesRecursively(Paths.get(args[0]));
     var listOfFiles = pathStream.stream()
@@ -19,9 +20,9 @@ class OpToHu {
         .filter(s -> s.toString().endsWith(".md"))
         .toList();
 
-    var collect = listOfFiles.stream().map(File::intoLines).map(intoPost).toList();
-    collect.forEach(s -> System.out.println("s = " + s));
+    var blogPosts = listOfFiles.stream().map(File::intoLines).map(intoPost).toList();
+    blogPosts.forEach(s -> out.println("s = " + s));
 
-    System.out.println("Number of blog entries: = " + collect.size());
+    out.println("Number of blog entries: = " + blogPosts.size());
   }
 }
