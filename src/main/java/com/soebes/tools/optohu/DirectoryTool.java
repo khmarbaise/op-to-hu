@@ -7,7 +7,7 @@ import java.util.List;
 
 interface DirectoryTool {
 
-  static List<Path> readFilesRecursively(Path resources) {
+  static List<Path> readRecursively(Path resources) {
     try (var stream = Files.walk(resources, Integer.MAX_VALUE)) {
       return stream.filter(Files::isRegularFile).toList();
     } catch (IOException e) {

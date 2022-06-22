@@ -10,7 +10,7 @@ class OpToHuTest {
   void first() {
     var resources = Path.of("src/test/resources");
 
-    var pathStream = DirectoryTool.readFilesRecursively(resources);
+    var pathStream = DirectoryTool.readRecursively(resources);
     var listOfFiles = pathStream.stream().filter(Files::isRegularFile).toList();
 
     var collect = listOfFiles.stream().map(File::intoLines).map(Markdown.intoPost).toList();

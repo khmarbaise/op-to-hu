@@ -14,7 +14,7 @@ class OpToHu {
   public static void main(String[] args) {
     out.println("Op-To-Hu (Octopress to Hugo) Converter");
 
-    var pathStream = DirectoryTool.readFilesRecursively(Paths.get(args[0]));
+    var pathStream = DirectoryTool.readRecursively(Paths.get(args[0]));
     var markdownFiles = pathStream.stream()
         .filter(Files::isRegularFile)
         .filter(s -> s.toString().endsWith(".md"))
