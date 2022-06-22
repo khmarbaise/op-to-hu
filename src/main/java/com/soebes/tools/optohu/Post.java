@@ -1,6 +1,6 @@
 package com.soebes.tools.optohu;
 
-import com.soebes.tools.optohu.Markdown.PostType;
+import com.soebes.tools.optohu.OctopressMarkdown.PostType;
 import java.nio.file.Path;
 import java.util.List;
 

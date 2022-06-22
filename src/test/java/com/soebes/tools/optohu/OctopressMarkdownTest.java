@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 
-class MarkdownTest {
+class OctopressMarkdownTest {
 
   private static String FIRST_MARKDOWN = """
       ---
@@ -38,7 +38,7 @@ class MarkdownTest {
         .map(String::trim)
         .collect(Collectors.toList());
     var fileAndLines = new FileAndContent(Path.of("test.md"), split);
-    var post = Markdown.intoPost.apply(fileAndLines);
+    var post = OctopressMarkdown.intoPost.apply(fileAndLines);
     assertThat(post.layout()).isEqualTo(Layout.post);
     assertThat(post.title()).isEqualTo("Apache Maven Assembly Plugin Version 3.1.1 Released");
     assertThat(post.publishingTime()).isEqualTo("2019-01-02 23:36:42");
@@ -53,7 +53,7 @@ class MarkdownTest {
         .map(String::trim)
         .collect(Collectors.toList());
     var fileAndLines = new FileAndContent(Path.of("test.md"), split);
-    var post = Markdown.intoPost.apply(fileAndLines);
+    var post = OctopressMarkdown.intoPost.apply(fileAndLines);
     assertThat(post.layout()).isEqualTo(Layout.post);
     assertThat(post.title()).isEqualTo("Apache Maven Assembly Plugin Version 3.1.1 Released");
     assertThat(post.publishingTime()).isEqualTo("2019-01-02 23:36:42");
@@ -67,7 +67,7 @@ class MarkdownTest {
         "src/test/resources/source/_posts/2019/01/2019-01-21-apache-maven-invoker-plugin-version-3-dot-2-0-released.md");
     var fileContent = File.intoLines(markdownPost);
 
-    var post = Markdown.intoPost.apply(fileContent);
+    var post = OctopressMarkdown.intoPost.apply(fileContent);
     System.out.println("post = " + post);
   }
 }

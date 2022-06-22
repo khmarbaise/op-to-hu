@@ -13,7 +13,7 @@ class OpToHuTest {
     var pathStream = DirectoryTool.readRecursively(resources);
     var listOfFiles = pathStream.stream().filter(Files::isRegularFile).toList();
 
-    var collect = listOfFiles.stream().map(File::intoLines).map(Markdown.intoPost).toList();
+    var collect = listOfFiles.stream().map(File::intoLines).map(OctopressMarkdown.intoPost).toList();
     collect.forEach(s -> System.out.println("s = " + s));
   }
 
