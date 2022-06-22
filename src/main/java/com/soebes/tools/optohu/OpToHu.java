@@ -14,9 +14,14 @@ class OpToHu {
     System.out.println("Op-To-Hu (Octopress to Hugo) Converter");
 
     var pathStream = DirectoryTool.readFilesRecursively(Paths.get(args[0]));
-    var listOfFiles = pathStream.stream().filter(Files::isRegularFile).toList();
+    var listOfFiles = pathStream.stream()
+        .filter(Files::isRegularFile)
+        .filter(s -> s.toString().endsWith(".md"))
+        .toList();
 
     var collect = listOfFiles.stream().map(File::intoLines).map(intoPost).toList();
     collect.forEach(s -> System.out.println("s = " + s));
+
+    System.out.println("Number of blog entries: = " + collect.size());
   }
 }

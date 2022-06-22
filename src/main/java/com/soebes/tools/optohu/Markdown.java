@@ -2,6 +2,7 @@ package com.soebes.tools.optohu;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 
@@ -21,13 +22,18 @@ interface Markdown {
   }
 
   Function<FileAndContent, Post> intoPost = fileAndContent -> {
+
+    var indexOfFirstMarker = fileAndContent.content().indexOf("---");
+
     // check minimum size (number of fileAndLines) 7
     if (!fileAndContent.content().get(0).equals("---")) {
       throw new IllegalStateException(fileAndContent.file() + " Beginning of the post is not correct missing ---");
     }
+
     if (!fileAndContent.content().get(1).equals("layout: post")) {
       throw new IllegalStateException(fileAndContent.file() + " layout: post Not found.");
     }
+
     var layout = Layout.post;
     var titleLine = TITLE.matcher(fileAndContent.content().get(2));
     if (!titleLine.matches()) {
@@ -52,14 +58,22 @@ interface Markdown {
       postType = PostType.BLOG;
     }
 
-    var categoriesLine = CATEGORIES.matcher(fileAndContent.content().get(5));
-    if (!categoriesLine.matches()) {
-      throw new IllegalStateException(fileAndContent.file() + " Categories not found");
-    }
+    var categoryLine = fileAndContent.content()
+        .stream()
+        .filter(s -> s.startsWith("categories:"))
+        .findFirst()
+        .orElseThrow(() -> new IllegalStateException(fileAndContent.file() + " Categories not found"));
 
-    var categoriesStr = categoriesLine.group(1);
-    var categoriesArr = categoriesStr.split(",");
-    var categories = Arrays.stream(categoriesArr).map(String::trim).toList();
+    List<String> categories = List.of();
+    if (categoryLine.contains("[")) {
+      var categoriesMatcher = CATEGORIES.matcher(categoryLine);
+      if (!categoriesMatcher.matches()) {
+        throw new IllegalStateException(fileAndContent.file() + " Categories matcher does not match.");
+      }
+      var categoriesStr = categoriesMatcher.group(1);
+      var categoriesArr = categoriesStr.split(",");
+      categories = Arrays.stream(categoriesArr).map(String::trim).toList();
+    }
 
     if (!fileAndContent.content().contains("---")) {
       throw new IllegalStateException(fileAndContent.file() + " End marker not found");
