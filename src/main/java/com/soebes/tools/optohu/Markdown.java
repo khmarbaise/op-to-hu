@@ -86,7 +86,7 @@ interface Markdown {
       postLines.add(fileAndContent.content().get(i));
     }
 
-    return new Post(layout, postType, title, dateTime, categories, postLines);
+    return new Post(fileAndContent.file(), layout, postType, title, dateTime, categories, postLines);
   };
 
 }
