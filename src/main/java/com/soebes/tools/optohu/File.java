@@ -3,13 +3,12 @@ package com.soebes.tools.optohu;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 
 interface File {
 
-  static List<String> intoLines(Path markdownFile) {
+  static FileAndContent intoLines(Path markdownFile) {
     try {
-      return Files.readAllLines(markdownFile).stream().map(String::trim).toList();
+      return new FileAndContent(markdownFile, Files.readAllLines(markdownFile).stream().map(String::trim).toList());
     } catch (IOException e) {
       throw new RuntimeException(e);
     }

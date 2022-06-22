@@ -2,7 +2,6 @@ package com.soebes.tools.optohu;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 
@@ -16,51 +15,64 @@ interface Markdown {
   // categories: [Neuigkeiten,BM,Maven,Maven-Plugins,Maven-Plugin-Releases]
   Pattern CATEGORIES = Pattern.compile("^categories: \\[(.*?)\\]");
 
-  Function<List<String>, Post> intoPost = lines -> {
-    // check minimum size (number of lines) 7
-    if (!lines.get(0).equals("---")) {
-      throw new IllegalStateException("Beginning of the post is not correct missing ---");
+  enum PostType {
+    NONE,
+    BLOG
+  }
+
+  Function<FileAndContent, Post> intoPost = fileAndContent -> {
+    // check minimum size (number of fileAndLines) 7
+    if (!fileAndContent.content().get(0).equals("---")) {
+      throw new IllegalStateException(fileAndContent.file() + " Beginning of the post is not correct missing ---");
     }
-    if (!lines.get(1).equals("layout: post")) {
-      throw new IllegalStateException("layout: post Not found.");
+    if (!fileAndContent.content().get(1).equals("layout: post")) {
+      throw new IllegalStateException(fileAndContent.file() + " layout: post Not found.");
     }
     var layout = Layout.post;
-    var titleLine = TITLE.matcher(lines.get(2));
+    var titleLine = TITLE.matcher(fileAndContent.content().get(2));
     if (!titleLine.matches()) {
-      throw new IllegalStateException("Title not found");
+      throw new IllegalStateException(fileAndContent.file() + " Title not found");
     }
     var title = titleLine.group(1);
 
-    var dateTimeLine = DATETIME.matcher(lines.get(3));
+    var dateTimeLine = DATETIME.matcher(fileAndContent.content().get(3));
     if (!dateTimeLine.matches()) {
-      throw new IllegalStateException("Date not found");
+      throw new IllegalStateException(fileAndContent.file() + " Date not found");
     }
 
     var dateTime = dateTimeLine.group(1);
 
-    if (!lines.get(4).equals("comments: true")) {
-      throw new IllegalStateException("comments not found.");
+    if (fileAndContent.content().contains("comments: true")) {
+      // Optional??
     }
 
-    var categoriesLine = CATEGORIES.matcher(lines.get(5));
+    //    post-type: blog
+    var postType = PostType.NONE;
+    if (fileAndContent.content().contains("post-type: blog")) {
+      postType = PostType.BLOG;
+    }
+
+    var categoriesLine = CATEGORIES.matcher(fileAndContent.content().get(5));
     if (!categoriesLine.matches()) {
-      throw new IllegalStateException("Categories not found");
+      throw new IllegalStateException(fileAndContent.file() + " Categories not found");
     }
 
     var categoriesStr = categoriesLine.group(1);
     var categoriesArr = categoriesStr.split(",");
     var categories = Arrays.stream(categoriesArr).map(String::trim).toList();
 
-    if (!lines.get(6).equals("---")) {
-      throw new IllegalStateException("End marker not found");
+    if (!fileAndContent.content().contains("---")) {
+      throw new IllegalStateException(fileAndContent.file() + " End marker not found");
     }
+
+    var indexOfEndMarker = fileAndContent.content().lastIndexOf("---");
 
     var postLines = new ArrayList<String>();
-    for (int i = 7; i < lines.size(); i++) {
-      postLines.add(lines.get(i));
+    for (int i = indexOfEndMarker + 1; i < fileAndContent.content().size(); i++) {
+      postLines.add(fileAndContent.content().get(i));
     }
 
-    return new Post(layout, title, dateTime, categories, postLines);
+    return new Post(layout, postType, title, dateTime, categories, postLines);
   };
 
 }
