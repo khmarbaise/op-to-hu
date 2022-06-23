@@ -23,8 +23,6 @@ interface OctopressMarkdown {
 
   Function<FileAndContent, Post> intoPost = fileAndContent -> {
 
-    var indexOfFirstMarker = fileAndContent.content().indexOf("---");
-
     // check minimum size (number of fileAndLines) 7
     if (!fileAndContent.content().get(0).equals("---")) {
       throw new IllegalStateException(fileAndContent.file() + " Beginning of the post is not correct missing ---");
