@@ -8,9 +8,9 @@ import java.util.List;
 /**
  * Migration from Octopress to Hugo.
  */
-class OpToHu {
+interface OpToHu {
 
-  public static void main(String[] args) {
+  static void main(String[] args) {
     out.println("Op-To-Hu (Octopress to Hugo) Converter");
 
     var pathStream = DirectoryTool.readRecursively(Paths.get(args[0]));
