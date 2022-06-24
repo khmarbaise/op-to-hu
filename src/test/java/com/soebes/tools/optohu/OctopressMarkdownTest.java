@@ -2,7 +2,6 @@ package com.soebes.tools.optohu;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -62,7 +61,7 @@ class OctopressMarkdownTest {
   }
 
   @Test
-  void second_test() throws IOException {
+  void second_test() {
     var markdownPost = Path.of(
         "src/test/resources/source/_posts/2019/01/2019-01-21-apache-maven-invoker-plugin-version-3-dot-2-0-released.md");
     var fileContent = File.intoLines(markdownPost);

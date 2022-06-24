@@ -1,5 +1,7 @@
 package com.soebes.tools.optohu;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.Test;
 
 class ApacheJiraLinkTest {
@@ -10,7 +12,9 @@ class ApacheJiraLinkTest {
 
     var interpolated = ApacheJiraLink.interpolate.apply(x);
 
-    System.out.println("interpolated = " + interpolated);
+    assertThat(interpolated).isEqualTo(
+        " * https://issues.apache.org/jira/browse/MSHARED-818 - Issue management URL in maven-artifact-transfer returns 404");
+
   }
 
   @Test
@@ -19,6 +23,7 @@ class ApacheJiraLinkTest {
 
     var interpolated = ApacheJiraLink.interpolate.apply(x);
 
-    System.out.println("interpolated = " + interpolated);
+    assertThat(interpolated).isEqualTo(
+        " * https://issues.apache.org/jira/browse/MSHARED-818 - Issue management URL in maven-artifact-transfer returns 404");
   }
 }
