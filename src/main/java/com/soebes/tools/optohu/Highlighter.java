@@ -2,7 +2,7 @@ package com.soebes.tools.optohu;
 
 import java.util.function.UnaryOperator;
 
-public interface Highlighter {
+interface Highlighter {
 
   UnaryOperator<Post> migrate = post -> {
     var content = post.content().stream().map(line -> switch (line) {
