@@ -1,16 +1,16 @@
 package com.soebes.tools.optohu;
 
-import java.util.function.Function;
+import java.util.function.UnaryOperator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 interface ApacheJiraLink {
 
-  Pattern PLACEHOLDER_PATTERN = Pattern.compile(Pattern.quote("{%ajl ") + "(.*?)" + Pattern.quote(" %}"));
+  Pattern PLACEHOLDER_PATTERN = Pattern.compile(Pattern.quote("{%") + "\\s*" + "ajl " + "(.*?)" + Pattern.quote(" %}"));
 
   String JIRA_LINK_BASE = "https://issues.apache.org/jira/browse/";
 
-  static Function<String, String> interpolate = s -> {
+  UnaryOperator<String> interpolate = s -> {
     var matcher = PLACEHOLDER_PATTERN.matcher(s);
     var sb = new StringBuilder();
     while (matcher.find()) {
