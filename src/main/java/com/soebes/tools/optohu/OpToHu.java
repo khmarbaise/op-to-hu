@@ -1,6 +1,5 @@
 package com.soebes.tools.optohu;
 
-import static com.soebes.tools.optohu.OctopressMarkdown.intoPost;
 import static java.lang.System.out;
 
 import java.nio.file.Paths;
@@ -16,7 +15,11 @@ class OpToHu {
     var pathStream = DirectoryTool.readRecursively(Paths.get(args[0]));
     var markdownFiles = pathStream.stream().filter(s -> s.toString().endsWith(".md")).toList();
 
-    var blogPosts = markdownFiles.stream().map(File::intoLines).map(intoPost).toList();
+    var blogPosts = markdownFiles.stream()
+        .map(File::intoLines)
+        .map(OctopressMarkdown.intoPost)
+        .map(MigrateApacheJiraLinks.resolve)
+        .toList();
 
     blogPosts.forEach(s -> out.println("s = " + s));
 
