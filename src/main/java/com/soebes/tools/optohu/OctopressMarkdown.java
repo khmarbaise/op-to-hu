@@ -2,6 +2,7 @@ package com.soebes.tools.optohu;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 import java.util.regex.Pattern;
@@ -84,7 +85,8 @@ interface OctopressMarkdown {
       postLines.add(fileAndContent.content().get(i));
     }
 
-    return new Post(fileAndContent.file(), layout, postType, title, dateTime, categories, postLines);
+    return new Post(fileAndContent.file(), layout, postType, title, dateTime, categories,
+        Collections.unmodifiableList(postLines));
   };
 
 }
