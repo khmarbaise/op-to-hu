@@ -20,7 +20,7 @@ interface OpToHu {
         .map(File::intoLines)
         .map(OctopressMarkdown.intoPost)
         .map(MigrateApacheJiraLinks.resolve)
-        .map(Highlighter.migrate)
+        .map(MigrateHighlighter.migrate)
         .toList();
 
     blogPosts.forEach(s -> out.println("s = " + s));

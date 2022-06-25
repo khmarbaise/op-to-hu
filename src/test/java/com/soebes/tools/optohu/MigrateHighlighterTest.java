@@ -6,13 +6,13 @@ import static org.mockito.Mockito.mock;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
-class HighlighterTest {
+class MigrateHighlighterTest {
 
   @Test
   void emptyContent() {
     var mockPost = mock(Post.class);
     var post = Post.from(mockPost, List.of());
-    var result = Highlighter.migrate.apply(post);
+    var result = MigrateHighlighter.migrate.apply(post);
     assertThat(result.content()).isEmpty();
   }
 
@@ -20,7 +20,7 @@ class HighlighterTest {
   void singleLineContent() {
     var mockPost = mock(Post.class);
     var post = Post.from(mockPost, List.of("Test Line"));
-    var result = Highlighter.migrate.apply(post);
+    var result = MigrateHighlighter.migrate.apply(post);
     assertThat(result.content()).containsExactly("Test Line");
   }
 
@@ -28,7 +28,7 @@ class HighlighterTest {
   void startingHighlight() {
     var mockPost = mock(Post.class);
     var post = Post.from(mockPost, List.of("{% highlight bash linenos %}", "Highlighted", "{% endhighlight %}"));
-    var result = Highlighter.migrate.apply(post);
+    var result = MigrateHighlighter.migrate.apply(post);
     assertThat(result.content()).containsExactly("```bash", "Highlighted", "```");
   }
 }
