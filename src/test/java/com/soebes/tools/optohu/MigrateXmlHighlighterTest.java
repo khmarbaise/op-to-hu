@@ -43,15 +43,12 @@ class MigrateXmlHighlighterTest {
 
   @Test
   void name() {
-    var contentLines = Arrays.stream(XML_SNIPPET.split(System.lineSeparator())).map(String::trim).toList();
-    var content = new Content(contentLines);
+    var content = new Content(Arrays.stream(XML_SNIPPET.split(System.lineSeparator())).toList());
     var contentMigrated = migrateContent.apply(content);
 
-    assertThat(contentMigrated.lines()).containsExactly("```xml", "<plugin>",
-        "<groupId>org.apache.maven.plugins</groupId>", "<artifactId>maven-source-plugin</artifactId>",
-        "<version>3.2.1</version>", "</plugin>", "```"
-
-    );
+    var expectedContent = List.of("```xml", "<plugin>", "  <groupId>org.apache.maven.plugins</groupId>",
+        "  <artifactId>maven-source-plugin</artifactId>", "  <version>3.2.1</version>", "</plugin>", "```");
+    assertThat(contentMigrated.lines()).containsOnlyOnceElementsOf(expectedContent);
 
   }
 }

@@ -17,11 +17,6 @@ interface OctopressMarkdown {
   // categories: [Neuigkeiten,BM,Maven,Maven-Plugins,Maven-Plugin-Releases]
   Pattern CATEGORIES = Pattern.compile("^categories: \\[(.*?)\\]");
 
-  enum PostType {
-    NONE,
-    BLOG
-  }
-
   Function<FileAndContent, Post> intoPost = fileAndContent -> {
 
     // check minimum size (number of fileAndLines) 7
@@ -53,9 +48,9 @@ interface OctopressMarkdown {
     }
 
     //    post-type: blog
-    var postType = PostType.NONE;
+    var postType = Post.PostType.NONE;
     if (fileAndContent.content().contains("post-type: blog")) {
-      postType = PostType.BLOG;
+      postType = Post.PostType.BLOG;
     }
 
     var categoryLine = fileAndContent.content()
