@@ -20,17 +20,6 @@ class OctopressMarkdownTest {
       First Line of Content.
       """;
 
-  private static String SECOND_MARKDOWN = """
-      ---
-      layout: post
-      title: "Apache Maven Assembly Plugin Version 3.1.1 Released"
-      date: 2019-01-02 23:36:42
-      comments: true
-      categories: 
-      ---
-      First Line of Content.
-      """;
-
   @Test
   void firstMarkdownConversion() {
     var split = Arrays.stream(FIRST_MARKDOWN.split(System.lineSeparator()))
@@ -45,6 +34,17 @@ class OctopressMarkdownTest {
         "Maven-Plugin-Releases");
     assertThat(post.content()).containsExactly("First Line of Content.");
   }
+
+  private static String SECOND_MARKDOWN = """
+      ---
+      layout: post
+      title: "Apache Maven Assembly Plugin Version 3.1.1 Released"
+      date: 2019-01-02 23:36:42
+      comments: true
+      categories: 
+      ---
+      First Line of Content.
+      """;
 
   @Test
   void secondMarkdownConversion() {
