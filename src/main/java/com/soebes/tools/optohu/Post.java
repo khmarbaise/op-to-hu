@@ -10,6 +10,11 @@ record Post(Path file, Layout layout, PostType postType, String title, String pu
     return new Post(post.file, post.layout, post.postType, post.title, post.publishingTime, post.categories, content);
   }
 
+  static Post from(Post post, Path newFile) {
+    return new Post(newFile, post.layout, post.postType, post.title, post.publishingTime, post.categories,
+        post.content);
+  }
+
   enum Layout {
     POST
   }
