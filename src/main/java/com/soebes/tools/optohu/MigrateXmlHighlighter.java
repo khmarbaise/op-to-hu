@@ -1,6 +1,5 @@
 package com.soebes.tools.optohu;
 
-import com.soebes.tools.optohu.Post.Content;
 import java.util.function.UnaryOperator;
 
 interface MigrateXmlHighlighter {

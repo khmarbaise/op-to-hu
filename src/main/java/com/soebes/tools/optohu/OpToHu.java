@@ -16,7 +16,7 @@ interface OpToHu {
     var markdownFiles = pathStream.stream().filter(s -> s.toString().endsWith(".md")).toList();
 
     var blogPosts = markdownFiles.stream()
-        .map(File::intoLines)
+        .map(File.intoContent)
         .map(OctopressMarkdown.intoPost)
         .map(MigrateApacheJiraLinks.resolve)
         .map(MigrateHighlighter.migrate)

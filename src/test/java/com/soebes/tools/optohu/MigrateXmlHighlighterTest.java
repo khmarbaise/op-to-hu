@@ -3,7 +3,6 @@ package com.soebes.tools.optohu;
 import static com.soebes.tools.optohu.MigrateXmlHighlighter.migrateContent;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.soebes.tools.optohu.Post.Content;
 import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 

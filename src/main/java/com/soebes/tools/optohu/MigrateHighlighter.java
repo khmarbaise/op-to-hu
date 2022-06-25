@@ -5,13 +5,13 @@ import java.util.function.UnaryOperator;
 interface MigrateHighlighter {
 
   UnaryOperator<Post> migrate = post -> {
-    var contentLines = post.content().stream().map(line -> switch (line) {
+    var contentLines = post.content().lines().stream().map(line -> switch (line) {
       case "{% highlight bash linenos %}" -> "```bash";
       case "{% endhighlight %}" -> "```";
       default -> line;
     }).toList();
 
-    return Post.from(post, contentLines);
+    return Post.from(post, new Content(contentLines));
   };
 
 }

@@ -13,7 +13,7 @@ class OpToHuTest {
     var pathStream = DirectoryTool.readRecursively(resources);
     var listOfFiles = pathStream.stream().filter(Files::isRegularFile).toList();
 
-    var collect = listOfFiles.stream().map(File::intoLines).map(OctopressMarkdown.intoPost).toList();
+    var collect = listOfFiles.stream().map(File.intoContent).map(OctopressMarkdown.intoPost).toList();
     collect.forEach(s -> System.out.println("s = " + s));
   }
 
@@ -21,6 +21,6 @@ class OpToHuTest {
   void readAllLines() {
     var markdownFile = Path.of(
         "src/test/resources/source/_posts/2019/01/2019-01-21-apache-maven-invoker-plugin-version-3-dot-2-0-released.md");
-    var fileLines = File.intoLines(markdownFile);
+    var fileLines = File.intoContent.apply(markdownFile);
   }
 }

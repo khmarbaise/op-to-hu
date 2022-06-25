@@ -15,71 +15,67 @@ interface OctopressMarkdown {
   // categories: [Neuigkeiten,BM,Maven,Maven-Plugins,Maven-Plugin-Releases]
   Pattern CATEGORIES = Pattern.compile("^categories: \\[(.*?)\\]");
 
-  Function<FileAndContent, Post> intoPost = fileAndContent -> {
-
+  Function<FileWithContent, Post> intoPost = fileWithContent -> {
+    var lines = fileWithContent.content().lines();
     // check minimum size (number of fileAndLines) 7
-    if (!fileAndContent.content().get(0).equals("---")) {
-      throw new IllegalStateException(fileAndContent.file() + " Beginning of the post is not correct missing ---");
+    if (!lines.get(0).equals("---")) {
+      throw new IllegalStateException(fileWithContent.file() + " Beginning of the post is not correct missing ---");
     }
 
-    if (!fileAndContent.content().get(1).equals("layout: post")) {
-      throw new IllegalStateException(fileAndContent.file() + " layout: post Not found.");
+    if (!lines.get(1).equals("layout: post")) {
+      throw new IllegalStateException(fileWithContent.file() + " layout: post Not found.");
     }
 
     var layout = Post.Layout.POST;
-    var titleLine = TITLE.matcher(fileAndContent.content().get(2));
+    var titleLine = TITLE.matcher(lines.get(2));
     if (!titleLine.matches()) {
-      throw new IllegalStateException(fileAndContent.file() + " Title not found");
+      throw new IllegalStateException(fileWithContent.file() + " Title not found");
     }
     var title = titleLine.group(1);
 
-    var dateTimeLine = DATETIME.matcher(fileAndContent.content().get(3));
+    var dateTimeLine = DATETIME.matcher(lines.get(3));
     if (!dateTimeLine.matches()) {
-      throw new IllegalStateException(fileAndContent.file() + " Date not found");
+      throw new IllegalStateException(fileWithContent.file() + " Date not found");
     }
 
     //FIXME: Convert to Instant / LocalDateTime ...
     var dateTime = dateTimeLine.group(1);
 
-    if (fileAndContent.content().contains("comments: true")) {
+    if (lines.contains("comments: true")) {
       // Optional??
     }
 
     //    post-type: blog
     var postType = Post.PostType.NONE;
-    if (fileAndContent.content().contains("post-type: blog")) {
+    if (lines.contains("post-type: blog")) {
       postType = Post.PostType.BLOG;
     }
 
-    var categoryLine = fileAndContent.content()
-        .stream()
+    var categoryLine = lines.stream()
         .filter(s -> s.startsWith("categories:"))
         .findFirst()
-        .orElseThrow(() -> new IllegalStateException(fileAndContent.file() + " Categories not found"));
+        .orElseThrow(() -> new IllegalStateException(fileWithContent.file() + " Categories not found"));
 
     List<String> categories = List.of();
     if (categoryLine.contains("[")) {
       var categoriesMatcher = CATEGORIES.matcher(categoryLine);
       if (!categoriesMatcher.matches()) {
-        throw new IllegalStateException(fileAndContent.file() + " Categories matcher does not match.");
+        throw new IllegalStateException(fileWithContent.file() + " Categories matcher does not match.");
       }
       var categoriesStr = categoriesMatcher.group(1);
       var categoriesArr = categoriesStr.split(",");
       categories = Arrays.stream(categoriesArr).map(String::trim).toList();
     }
 
-    if (!fileAndContent.content().contains("---")) {
-      throw new IllegalStateException(fileAndContent.file() + " End marker not found");
+    if (!lines.contains("---")) {
+      throw new IllegalStateException(fileWithContent.file() + " End marker not found");
     }
 
-    var indexOfEndMarker = fileAndContent.content().lastIndexOf("---");
+    var indexOfEndMarker = lines.lastIndexOf("---");
 
-    var postLines = fileAndContent.content()
-        .subList(indexOfEndMarker + 1, fileAndContent.content().size())
-        .stream()
-        .toList();
+    var postLines = lines.subList(indexOfEndMarker + 1, lines.size()).stream().toList();
 
-    return new Post(fileAndContent.file(), layout, postType, title, dateTime, categories, postLines);
+    return new Post(fileWithContent.file(), layout, postType, title, dateTime, categories, new Content(postLines));
   };
 
 }
