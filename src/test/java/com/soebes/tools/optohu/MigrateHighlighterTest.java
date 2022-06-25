@@ -25,7 +25,7 @@ class MigrateHighlighterTest {
   }
 
   @Test
-  void startingHighlight() {
+  void replacingOldStyleWithNewStyle() {
     var mockPost = mock(Post.class);
     var post = Post.from(mockPost, List.of("{% highlight bash linenos %}", "Highlighted", "{% endhighlight %}"));
     var result = MigrateHighlighter.migrate.apply(post);
