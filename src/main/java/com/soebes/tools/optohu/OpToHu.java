@@ -26,6 +26,7 @@ interface OpToHu {
         .map(MigrateApacheJiraLinks.resolve)
         .map(MigrateHighlighter.migrate)
         .map(MigrateXmlHighlighter.migrateContent)
+        .map(MigrateJavaHighlighter.migrateContent)
         .toList();
 
     var sorted = blogPosts.stream().sorted(Comparator.comparing(Post::file)).toList();
