@@ -8,7 +8,7 @@ interface File {
 
   Function<Path, FileWithContent> intoContent = markdownFile -> {
     try {
-      var contentOfFile = Files.readAllLines(markdownFile).stream().map(String::trim).toList();
+      var contentOfFile = Files.readAllLines(markdownFile).stream().toList();
       return new FileWithContent(markdownFile, new Content(contentOfFile));
     } catch (Exception e) {
       throw new RuntimeException(markdownFile + " " + e.getMessage(), e);

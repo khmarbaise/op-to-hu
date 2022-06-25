@@ -22,9 +22,7 @@ class OctopressMarkdownTest {
 
   @Test
   void firstMarkdownConversion() {
-    var split = Arrays.stream(FIRST_MARKDOWN.split(System.lineSeparator()))
-        .map(String::trim)
-        .collect(Collectors.toList());
+    var split = Arrays.stream(FIRST_MARKDOWN.split(System.lineSeparator())).collect(Collectors.toList());
     var fileAndLines = new FileWithContent(Path.of("test.md"), new Content(split));
     var post = OctopressMarkdown.intoPost.apply(fileAndLines);
     assertThat(post.layout()).isEqualTo(Post.Layout.POST);
@@ -49,9 +47,7 @@ class OctopressMarkdownTest {
 
   @Test
   void secondMarkdownConversion() {
-    var split = Arrays.stream(SECOND_MARKDOWN.split(System.lineSeparator()))
-        .map(String::trim)
-        .collect(Collectors.toList());
+    var split = Arrays.stream(SECOND_MARKDOWN.split(System.lineSeparator())).collect(Collectors.toList());
     var fileAndLines = new FileWithContent(Path.of("test.md"), new Content(split));
     var post = OctopressMarkdown.intoPost.apply(fileAndLines);
     assertThat(post.layout()).isEqualTo(Post.Layout.POST);

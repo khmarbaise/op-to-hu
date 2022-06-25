@@ -2,6 +2,9 @@ package com.soebes.tools.optohu;
 
 import static java.lang.System.out;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Comparator;
 
@@ -22,6 +25,7 @@ interface OpToHu {
         .map(OctopressMarkdown.intoPost)
         .map(MigrateApacheJiraLinks.resolve)
         .map(MigrateHighlighter.migrate)
+        .map(MigrateXmlHighlighter.migrateContent)
         .toList();
 
     var sorted = blogPosts.stream().sorted(Comparator.comparing(Post::file)).toList();
@@ -33,6 +37,18 @@ interface OpToHu {
 
     relativizePosts.forEach(s -> out.println("s = " + s.file()));
     out.println("Number of blog entries: = " + blogPosts.size());
+
+    var target = Path.of("target", "posts");
+
+    relativizePosts.stream().forEach(post -> {
+      try {
+        Path writing = target.resolve(post.file().getParent());
+        Files.createDirectories(writing);
+        Files.write(writing.resolve(post.file().getFileName()), post.content().lines());
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+    });
 
   }
 }
