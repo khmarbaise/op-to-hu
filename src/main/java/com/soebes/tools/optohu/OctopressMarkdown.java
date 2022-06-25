@@ -26,7 +26,7 @@ interface OctopressMarkdown {
       throw new IllegalStateException(fileAndContent.file() + " layout: post Not found.");
     }
 
-    var layout = Post.Layout.post;
+    var layout = Post.Layout.POST;
     var titleLine = TITLE.matcher(fileAndContent.content().get(2));
     if (!titleLine.matches()) {
       throw new IllegalStateException(fileAndContent.file() + " Title not found");
