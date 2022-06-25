@@ -19,14 +19,15 @@ class MigrateXmlHighlighterTest {
       ```
       """;
 
-  UnaryOperator<Post> migrate = (Post post) -> {
-    var contentLines = post.content().stream().map(line -> switch (line) {
-      case "``` xml", "```xml" -> "```xml";
-      default -> line;
-    }).toList();
-
-    return Post.from(post, contentLines);
-  };
+  String EXPECTED_XML_SNIPPET = """
+      ```xml
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>3.2.1</version>
+      </plugin>
+      ```
+      """;
 
   record Content(List<String> lines) {
 
@@ -44,11 +45,10 @@ class MigrateXmlHighlighterTest {
   @Test
   void name() {
     var content = new Content(Arrays.stream(XML_SNIPPET.split(System.lineSeparator())).toList());
+    var expectedContent = Arrays.stream(EXPECTED_XML_SNIPPET.split(System.lineSeparator())).toList();
     var contentMigrated = migrateContent.apply(content);
 
-    var expectedContent = List.of("```xml", "<plugin>", "  <groupId>org.apache.maven.plugins</groupId>",
-        "  <artifactId>maven-source-plugin</artifactId>", "  <version>3.2.1</version>", "</plugin>", "```");
-    assertThat(contentMigrated.lines()).containsOnlyOnceElementsOf(expectedContent);
+    assertThat(contentMigrated.lines()).containsExactlyElementsOf(expectedContent);
 
   }
 }
