@@ -27,7 +27,7 @@ class OctopressMarkdownTest {
         .collect(Collectors.toList());
     var fileAndLines = new FileAndContent(Path.of("test.md"), split);
     var post = OctopressMarkdown.intoPost.apply(fileAndLines);
-    assertThat(post.layout()).isEqualTo(Layout.post);
+    assertThat(post.layout()).isEqualTo(Post.Layout.post);
     assertThat(post.title()).isEqualTo("Apache Maven Assembly Plugin Version 3.1.1 Released");
     assertThat(post.publishingTime()).isEqualTo("2019-01-02 23:36:42");
     assertThat(post.categories()).containsExactly("Neuigkeiten", "BM", "Maven", "Maven-Plugins",
@@ -53,7 +53,7 @@ class OctopressMarkdownTest {
         .collect(Collectors.toList());
     var fileAndLines = new FileAndContent(Path.of("test.md"), split);
     var post = OctopressMarkdown.intoPost.apply(fileAndLines);
-    assertThat(post.layout()).isEqualTo(Layout.post);
+    assertThat(post.layout()).isEqualTo(Post.Layout.post);
     assertThat(post.title()).isEqualTo("Apache Maven Assembly Plugin Version 3.1.1 Released");
     assertThat(post.publishingTime()).isEqualTo("2019-01-02 23:36:42");
     assertThat(post.categories()).isEmpty();

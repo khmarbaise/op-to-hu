@@ -11,4 +11,8 @@ record Post(Path file, Layout layout, PostType postType, String title, String pu
     return new Post(post.file, post.layout, post.postType, post.title, post.publishingTime, post.categories,
         contentLines);
   }
+
+  enum Layout {
+    post
+  }
 }
