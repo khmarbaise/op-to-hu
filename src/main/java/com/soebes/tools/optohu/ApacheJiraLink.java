@@ -14,7 +14,10 @@ import java.util.regex.Pattern;
  */
 interface ApacheJiraLink {
 
-  Pattern PLACEHOLDER_PATTERN = Pattern.compile(Pattern.quote("{%") + "\\s*" + "ajl " + "(.*?)" + Pattern.quote(" %}"));
+  // chjl
+  // ajl
+  Pattern PLACEHOLDER_PATTERN = Pattern.compile(
+      Pattern.quote("{%") + "\\s*" + "(ajl|chjl)" + "\\s*" + "(.*?)" + Pattern.quote(" %}"));
 
   String JIRA_ISSUE_LINK_BASE = "https://issues.apache.org/jira/browse/";
 
@@ -23,7 +26,7 @@ interface ApacheJiraLink {
     var sb = new StringBuilder();
     while (matcher.find()) {
       var escaped = Matcher.quoteReplacement(
-          "[" + matcher.group(1) + "](" + JIRA_ISSUE_LINK_BASE + matcher.group(1) + ")");
+          "[" + matcher.group(2) + "](" + JIRA_ISSUE_LINK_BASE + matcher.group(2) + ")");
       matcher.appendReplacement(sb, escaped);
     }
     matcher.appendTail(sb);
