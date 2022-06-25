@@ -6,9 +6,9 @@ import java.util.List;
 
 record Post(Path file, Layout layout, PostType postType, String title, String publishingTime, List<String> categories,
             List<String> content) {
-  
-  static Post from(Post post, List<String> content) {
-    return new Post(post.file(), post.layout(), post.postType(), post.title(), post.publishingTime(), post.categories(),
-        content);
+
+  static Post from(Post post, List<String> contentLines) {
+    return new Post(post.file, post.layout, post.postType, post.title, post.publishingTime, post.categories,
+        contentLines);
   }
 }
