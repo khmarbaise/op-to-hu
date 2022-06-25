@@ -44,6 +44,7 @@ class OctopressMarkdownTest {
       categories: 
       ---
       First Line of Content.
+      Second Line of Content.
       """;
 
   @Test
@@ -57,7 +58,7 @@ class OctopressMarkdownTest {
     assertThat(post.title()).isEqualTo("Apache Maven Assembly Plugin Version 3.1.1 Released");
     assertThat(post.publishingTime()).isEqualTo("2019-01-02 23:36:42");
     assertThat(post.categories()).isEmpty();
-    assertThat(post.content()).containsExactly("First Line of Content.");
+    assertThat(post.content()).containsExactly("First Line of Content.", "Second Line of Content.");
   }
 
   @Test

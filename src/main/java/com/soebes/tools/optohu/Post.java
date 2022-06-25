@@ -11,6 +11,10 @@ record Post(Path file, Layout layout, PostType postType, String title, String pu
         contentLines);
   }
 
+  record Content(List<String> lines) {
+
+  }
+
   enum Layout {
     post
   }

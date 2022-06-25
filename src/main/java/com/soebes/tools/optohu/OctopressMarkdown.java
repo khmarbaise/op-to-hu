@@ -1,8 +1,6 @@
 package com.soebes.tools.optohu;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 import java.util.regex.Pattern;
@@ -76,13 +74,12 @@ interface OctopressMarkdown {
 
     var indexOfEndMarker = fileAndContent.content().lastIndexOf("---");
 
-    var postLines = new ArrayList<String>();
-    for (int i = indexOfEndMarker + 1; i < fileAndContent.content().size(); i++) {
-      postLines.add(fileAndContent.content().get(i));
-    }
+    var postLines = fileAndContent.content()
+        .subList(indexOfEndMarker + 1, fileAndContent.content().size())
+        .stream()
+        .toList();
 
-    return new Post(fileAndContent.file(), layout, postType, title, dateTime, categories,
-        Collections.unmodifiableList(postLines));
+    return new Post(fileAndContent.file(), layout, postType, title, dateTime, categories, postLines);
   };
 
 }
