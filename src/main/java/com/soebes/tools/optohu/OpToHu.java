@@ -3,7 +3,6 @@ package com.soebes.tools.optohu;
 import static java.lang.System.out;
 
 import java.nio.file.Paths;
-import java.util.List;
 
 /**
  * Migration from Octopress to Hugo.
@@ -16,7 +15,7 @@ interface OpToHu {
     var pathStream = DirectoryTool.readRecursively(Paths.get(args[0]));
     var markdownFiles = pathStream.stream().filter(s -> s.toString().endsWith(".md")).toList();
 
-    List<Post> blogPosts = markdownFiles.stream()
+    var blogPosts = markdownFiles.stream()
         .map(File::intoLines)
         .map(OctopressMarkdown.intoPost)
         .map(MigrateApacheJiraLinks.resolve)
