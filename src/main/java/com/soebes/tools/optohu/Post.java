@@ -19,4 +19,8 @@ record Post(Path file, Layout layout, PostType postType, String title, String pu
     NONE,
     BLOG
   }
+
+  record Content(List<String> lines) {
+
+  }
 }

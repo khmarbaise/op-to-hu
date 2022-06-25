@@ -1,10 +1,10 @@
 package com.soebes.tools.optohu;
 
+import static com.soebes.tools.optohu.MigrateXmlHighlighter.migrateContent;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.soebes.tools.optohu.Post.Content;
 import java.util.Arrays;
-import java.util.List;
-import java.util.function.UnaryOperator;
 import org.junit.jupiter.api.Test;
 
 class MigrateXmlHighlighterTest {
@@ -28,19 +28,6 @@ class MigrateXmlHighlighterTest {
       </plugin>
       ```
       """;
-
-  record Content(List<String> lines) {
-
-  }
-
-  UnaryOperator<Content> migrateContent = content -> {
-    var contentLines = content.lines.stream().map(line -> switch (line) {
-      case "``` xml", "```xml" -> "```xml";
-      default -> line;
-    }).toList();
-
-    return new Content(contentLines);
-  };
 
   @Test
   void name() {
