@@ -22,7 +22,8 @@ interface ApacheJiraLink {
     var matcher = PLACEHOLDER_PATTERN.matcher(s);
     var sb = new StringBuilder();
     while (matcher.find()) {
-      var escaped = Matcher.quoteReplacement(JIRA_ISSUE_LINK_BASE + matcher.group(1));
+      var escaped = Matcher.quoteReplacement(
+          "[" + matcher.group(1) + "](" + JIRA_ISSUE_LINK_BASE + matcher.group(1) + ")");
       matcher.appendReplacement(sb, escaped);
     }
     matcher.appendTail(sb);

@@ -13,7 +13,7 @@ class ApacheJiraLinkTest {
     var interpolated = ApacheJiraLink.interpolate.apply(x);
 
     assertThat(interpolated).isEqualTo(
-        " * https://issues.apache.org/jira/browse/MSHARED-818 - Issue management URL in maven-artifact-transfer returns 404");
+        " * [MSHARED-818](https://issues.apache.org/jira/browse/MSHARED-818) - Issue management URL in maven-artifact-transfer returns 404");
 
   }
 
@@ -24,6 +24,6 @@ class ApacheJiraLinkTest {
     var interpolated = ApacheJiraLink.interpolate.apply(x);
 
     assertThat(interpolated).isEqualTo(
-        " * https://issues.apache.org/jira/browse/MSHARED-818 - Issue management URL in maven-artifact-transfer returns 404");
+        " * [MSHARED-818](https://issues.apache.org/jira/browse/MSHARED-818) - Issue management URL in maven-artifact-transfer returns 404");
   }
 }
