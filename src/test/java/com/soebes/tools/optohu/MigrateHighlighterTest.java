@@ -32,4 +32,13 @@ class MigrateHighlighterTest {
     var result = MigrateHighlighter.migrate.apply(post);
     assertThat(result.content().lines()).containsExactly("```bash", "Highlighted", "```");
   }
+
+  @Test
+  void javaHighlighter() {
+    var mockPost = mock(Post.class);
+    var post = Post.from(mockPost,
+        new Content(List.of("{% highlight java linenos %}", "Highlighted", "{% endhighlight %}")));
+    var result = MigrateHighlighter.migrate.apply(post);
+    assertThat(result.content().lines()).containsExactly("```java", "Highlighted", "```");
+  }
 }

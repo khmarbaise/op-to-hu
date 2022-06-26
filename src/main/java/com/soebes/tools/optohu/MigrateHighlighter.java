@@ -9,6 +9,7 @@ interface MigrateHighlighter {
       case "{% highlight bash linenos %}", "{% highlight bash %}" -> "```bash";
       case "{% highlight perl linenos %}" -> "```perl";
       case "{% highlight xml linenos %}" -> "```xml";
+      case "{% highlight java linenos %}" -> "```java";
       case "{% endhighlight %}" -> "```";
       default -> line;
     }).toList();

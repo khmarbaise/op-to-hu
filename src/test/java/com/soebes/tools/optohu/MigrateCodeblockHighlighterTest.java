@@ -28,7 +28,7 @@ class MigrateCodeblockHighlighterTest {
         {% codeblock Downloading Artifacts lang:xml %}
         Test code block.
         Test code block.
-        {% codeblock %}
+        {% endcodeblock %}
         """;
 
     String expectedContentResult = """

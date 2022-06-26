@@ -7,10 +7,10 @@ import java.util.regex.Pattern;
 interface MigrateCodeblockHighlighter {
 
   Pattern START_HIGHLIGTHER_PATTERN = Pattern.compile(
-      "^" + Pattern.quote("{%") + "\\s+" + "codeblock" + "\\s+" + "(.*)" + "\\s+" + "(.*?:.*?)" + "\\s+"
+      "^" + "`?" + Pattern.quote("{%") + "\\s+" + "codeblock" + "\\s+" + "(.*)" + "\\s+" + "(.*?:.*?)" + "\\s+"
           + Pattern.quote("%}"));
 
-  // {% codeblock Downloading Artifacts lang:xml %}
+  // `{% codeblock Iterator Maven Plugin Configuration lang:xml %}
   UnaryOperator<String> filter = s -> {
     var matcher = START_HIGHLIGTHER_PATTERN.matcher(s);
     var sb = new StringBuilder();
@@ -43,7 +43,7 @@ interface MigrateCodeblockHighlighter {
   };
 
   UnaryOperator<String> endCodeBlock = s -> {
-    if (s.equals("{% codeblock %}")) {
+    if (s.equals("{% endcodeblock %}")) {
       return "```";
     } else {
       return s;
