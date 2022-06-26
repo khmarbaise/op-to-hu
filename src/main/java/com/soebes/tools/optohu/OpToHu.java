@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.Comparator;
 
 /**
@@ -46,11 +47,21 @@ interface OpToHu {
       try {
         Path writing = target.resolve(post.file().getParent());
         Files.createDirectories(writing);
-        Files.write(writing.resolve(post.file().getFileName()), post.content().lines());
+        writingPost(writing, post);
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
     });
 
+  }
+
+  static void writingPost(Path directory, Post post) throws IOException {
+    var file = directory.resolve(post.file().getFileName());
+    out.println("file = " + file);
+    Files.writeString(file, "---\n", StandardOpenOption.CREATE, StandardOpenOption.WRITE);
+    Files.writeString(file, "title: " + post.title() + "\n", StandardOpenOption.APPEND);
+    Files.writeString(file, "date: " + post.publishingTime() + "\n", StandardOpenOption.APPEND);
+    Files.writeString(file, "---\n", StandardOpenOption.APPEND);
+    Files.write(file, post.content().lines(), StandardOpenOption.APPEND);
   }
 }
