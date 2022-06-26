@@ -1,5 +1,7 @@
 package com.soebes.tools.optohu;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
@@ -14,6 +16,8 @@ interface OctopressMarkdown {
 
   // categories: [Neuigkeiten,BM,Maven,Maven-Plugins,Maven-Plugin-Releases]
   Pattern CATEGORIES = Pattern.compile("^categories: \\[(.*?)\\]");
+
+  DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
   Function<FileWithContent, Post> intoPost = fileWithContent -> {
     var lines = fileWithContent.content().lines();
@@ -39,7 +43,9 @@ interface OctopressMarkdown {
     }
 
     //FIXME: Convert to Instant / LocalDateTime ...
-    var dateTime = dateTimeLine.group(1);
+    // date: 2019-01-02 23:36:42
+    // date: 2019-01-06 23:37:00
+    var dateTime = LocalDateTime.parse(dateTimeLine.group(1), DATE_TIME_FORMATTER);
 
     if (lines.contains("comments: true")) {
       // Optional??

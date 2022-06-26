@@ -3,6 +3,7 @@ package com.soebes.tools.optohu;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.nio.file.Path;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
@@ -27,7 +28,8 @@ class OctopressMarkdownTest {
     var post = OctopressMarkdown.intoPost.apply(fileAndLines);
     assertThat(post.layout()).isEqualTo(Post.Layout.POST);
     assertThat(post.title()).isEqualTo("Apache Maven Assembly Plugin Version 3.1.1 Released");
-    assertThat(post.publishingTime()).isEqualTo("2019-01-02 23:36:42");
+    assertThat(post.publishingTime()).isEqualTo(
+        LocalDateTime.parse("2019-01-02 23:36:42", OctopressMarkdown.DATE_TIME_FORMATTER));
     assertThat(post.categories()).containsExactly("Neuigkeiten", "BM", "Maven", "Maven-Plugins",
         "Maven-Plugin-Releases");
     assertThat(post.content().lines()).containsExactly("First Line of Content.");
@@ -52,7 +54,8 @@ class OctopressMarkdownTest {
     var post = OctopressMarkdown.intoPost.apply(fileAndLines);
     assertThat(post.layout()).isEqualTo(Post.Layout.POST);
     assertThat(post.title()).isEqualTo("Apache Maven Assembly Plugin Version 3.1.1 Released");
-    assertThat(post.publishingTime()).isEqualTo("2019-01-02 23:36:42");
+    assertThat(post.publishingTime()).isEqualTo(
+        LocalDateTime.parse("2019-01-02 23:36:42", OctopressMarkdown.DATE_TIME_FORMATTER));
     assertThat(post.categories()).isEmpty();
     assertThat(post.content().lines()).containsExactly("First Line of Content.", "Second Line of Content.");
   }
