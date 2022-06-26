@@ -23,7 +23,7 @@ interface OpToHu {
     var blogPosts = markdownFiles.stream()
         .map(File.intoContent)
         .map(OctopressMarkdown.intoPost)
-        .map(MigrateApacheJiraLinks.resolve)
+        .map(MigrateLinks.resolve)
         .map(MigrateHighlighter.migrate)
         .map(MigrateXmlHighlighter.migrateContent)
         .map(MigrateJavaHighlighter.migrateContent)
