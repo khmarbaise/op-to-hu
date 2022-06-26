@@ -18,6 +18,7 @@ interface OctopressMarkdown {
   Pattern CATEGORIES = Pattern.compile("^categories: \\[(.*?)\\]");
 
   DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+  DateTimeFormatter DATE_TIME_FORMATTER_WITHOUT_SECONDS = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
   Function<FileWithContent, Post> intoPost = fileWithContent -> {
     var lines = fileWithContent.content().lines();
@@ -45,7 +46,9 @@ interface OctopressMarkdown {
     //FIXME: Convert to Instant / LocalDateTime ...
     // date: 2019-01-02 23:36:42
     // date: 2019-01-06 23:37:00
-    var dateTime = LocalDateTime.parse(dateTimeLine.group(1), DATE_TIME_FORMATTER);
+    var dtStr = dateTimeLine.group(1).trim();
+    var dateTime = (dtStr.length() > 16) ? LocalDateTime.parse(dtStr, DATE_TIME_FORMATTER)
+        : LocalDateTime.parse(dtStr, DATE_TIME_FORMATTER_WITHOUT_SECONDS);
 
     if (lines.contains("comments: true")) {
       // Optional??
