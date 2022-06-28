@@ -1,13 +1,23 @@
 package com.soebes.tools.optohu;
 
-import static java.lang.System.out;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.nio.file.attribute.PosixFilePermission;
+import java.nio.file.attribute.PosixFilePermissions;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Set;
+
+import static java.lang.System.out;
+import static java.nio.file.attribute.PosixFilePermission.GROUP_READ;
+import static java.nio.file.attribute.PosixFilePermission.OWNER_EXECUTE;
+import static java.nio.file.attribute.PosixFilePermission.OWNER_READ;
+import static java.nio.file.attribute.PosixFilePermission.OWNER_WRITE;
 
 /**
  * Migration from Octopress to Hugo.
@@ -55,13 +65,57 @@ interface OpToHu {
 
   }
 
+  /*
+---
+draft: true
+date: 2018-02-07T18:30:00+06:00
+lastmod: 2022-01-05T02:30:00+06:00
+title: Jenkins
+authors: ["khmarbaise"]
+categories:
+  - schulungen
+tags:
+  - jenkins
+slug: jenkins
+toc: true
+---
+
+   */
+
+  static void writeSingleLine(Path file, String line) {
+    try {
+      Files.writeString(file, line + "\n", StandardOpenOption.APPEND);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  static void writeLines(Path file, List<String> lines) {
+    lines.stream().forEach(line -> {
+          writeSingleLine(file, line);
+        }
+    );
+  }
+
   static void writingPost(Path directory, Post post) throws IOException {
     var file = directory.resolve(post.file().getFileName());
+
+    Set<PosixFilePermission> perms =
+        EnumSet.of(OWNER_READ, OWNER_WRITE, OWNER_EXECUTE, GROUP_READ);
+    Files.createFile(file, PosixFilePermissions.asFileAttribute(perms));
+
     out.println("file = " + file);
-    Files.writeString(file, "---\n", StandardOpenOption.CREATE, StandardOpenOption.WRITE);
-    Files.writeString(file, "title: " + post.title() + "\n", StandardOpenOption.APPEND);
-    Files.writeString(file, "date: " + post.publishingTime() + "\n", StandardOpenOption.APPEND);
-    Files.writeString(file, "---\n", StandardOpenOption.APPEND);
-    Files.write(file, post.content().lines(), StandardOpenOption.APPEND);
+
+    var lines = new ArrayList<String>();
+    lines.add("---");
+    lines.add("title: " + post.title());
+    lines.add("date: " + post.publishingTime());
+    lines.add("lastmod: " + post.publishingTime());
+    lines.add("categories:");
+    post.categories().forEach(s -> lines.add("  - " + s));
+    lines.add("---");
+    lines.addAll(post.content().lines());
+
+    writeLines(file, lines);
   }
 }
