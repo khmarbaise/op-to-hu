@@ -19,7 +19,7 @@ record Post(Path file, Layout layout, PostType postType, String title, LocalDate
     POST
   }
 
-  public enum PostType {
+  enum PostType {
     NONE,
     BLOG
   }
