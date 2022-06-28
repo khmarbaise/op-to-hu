@@ -65,7 +65,7 @@ interface OctopressMarkdown {
         .findFirst()
         .orElseThrow(() -> new IllegalStateException(fileAndContent.file() + " Categories not found"));
 
-    List<String> categories = List.of();
+    var categories = new Categories(List.of());
     if (categoryLine.contains("[")) {
       var categoriesMatcher = CATEGORIES.matcher(categoryLine);
       if (!categoriesMatcher.matches()) {
@@ -73,7 +73,7 @@ interface OctopressMarkdown {
       }
       var categoriesStr = categoriesMatcher.group(1);
       var categoriesArr = categoriesStr.split(",");
-      categories = Arrays.stream(categoriesArr).map(String::trim).toList();
+      categories = new Categories(Arrays.stream(categoriesArr).map(String::trim).toList());
     }
 
     if (!lines.contains("---")) {

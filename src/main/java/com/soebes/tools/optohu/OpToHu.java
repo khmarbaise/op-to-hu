@@ -109,7 +109,7 @@ toc: true
     lines.add("date: " + post.publishingTime());
     lines.add("lastmod: " + post.publishingTime());
     lines.add("categories:");
-    post.categories().forEach(s -> lines.add("  - " + s));
+    post.categories().categoryTags().forEach(s -> lines.add("  - " + s));
     lines.add("---");
     lines.addAll(post.content().lines());
 

@@ -31,7 +31,7 @@ class OctopressMarkdownTest {
     assertThat(post.title()).isEqualTo("Apache Maven Assembly Plugin Version 3.1.1 Released");
     assertThat(post.publishingTime()).isEqualTo(
         LocalDateTime.parse("2019-01-02 23:36:42", OctopressMarkdown.DATE_TIME_FORMATTER));
-    assertThat(post.categories()).containsExactly("Neuigkeiten", "BM", "Maven", "Maven-Plugins",
+    assertThat(post.categories().categoryTags()).containsExactly("Neuigkeiten", "BM", "Maven", "Maven-Plugins",
         "Maven-Plugin-Releases");
     assertThat(post.content().lines()).containsExactly("First Line of Content.");
   }
@@ -57,7 +57,7 @@ class OctopressMarkdownTest {
     assertThat(post.title()).isEqualTo("Apache Maven Assembly Plugin Version 3.1.1 Released");
     assertThat(post.publishingTime()).isEqualTo(
         LocalDateTime.parse("2019-01-02 23:36:42", OctopressMarkdown.DATE_TIME_FORMATTER));
-    assertThat(post.categories()).isEmpty();
+    assertThat(post.categories().categoryTags()).isEmpty();
     assertThat(post.content().lines()).containsExactly("First Line of Content.", "Second Line of Content.");
   }
 
