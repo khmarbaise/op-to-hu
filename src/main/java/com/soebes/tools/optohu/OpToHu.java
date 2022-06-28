@@ -91,10 +91,7 @@ toc: true
   }
 
   static void writeLines(Path file, List<String> lines) {
-    lines.stream().forEach(line -> {
-          writeSingleLine(file, line);
-        }
-    );
+    lines.forEach(line -> writeSingleLine(file, line));
   }
 
   static void writingPost(Path directory, Post post) throws IOException {

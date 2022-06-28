@@ -1,12 +1,13 @@
 package com.soebes.tools.optohu;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.Test;
 
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.stream.Collectors;
-import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class OctopressMarkdownTest {
 
@@ -24,7 +25,7 @@ class OctopressMarkdownTest {
   @Test
   void firstMarkdownConversion() {
     var split = Arrays.stream(FIRST_MARKDOWN.split(System.lineSeparator())).collect(Collectors.toList());
-    var fileAndLines = new FileWithContent(Path.of("test.md"), new Content(split));
+    var fileAndLines = new FileAndContent(Path.of("test.md"), new Content(split));
     var post = OctopressMarkdown.intoPost.apply(fileAndLines);
     assertThat(post.layout()).isEqualTo(Post.Layout.POST);
     assertThat(post.title()).isEqualTo("Apache Maven Assembly Plugin Version 3.1.1 Released");
@@ -50,7 +51,7 @@ class OctopressMarkdownTest {
   @Test
   void secondMarkdownConversion() {
     var split = Arrays.stream(SECOND_MARKDOWN.split(System.lineSeparator())).collect(Collectors.toList());
-    var fileAndLines = new FileWithContent(Path.of("test.md"), new Content(split));
+    var fileAndLines = new FileAndContent(Path.of("test.md"), new Content(split));
     var post = OctopressMarkdown.intoPost.apply(fileAndLines);
     assertThat(post.layout()).isEqualTo(Post.Layout.POST);
     assertThat(post.title()).isEqualTo("Apache Maven Assembly Plugin Version 3.1.1 Released");

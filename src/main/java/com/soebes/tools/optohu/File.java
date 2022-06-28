@@ -6,10 +6,10 @@ import java.util.function.Function;
 
 interface File {
 
-  Function<Path, FileWithContent> intoContent = markdownFile -> {
+  Function<Path, FileAndContent> intoContent = markdownFile -> {
     try {
       var contentOfFile = Files.readAllLines(markdownFile).stream().toList();
-      return new FileWithContent(markdownFile, new Content(contentOfFile));
+      return new FileAndContent(markdownFile, new Content(contentOfFile));
     } catch (Exception e) {
       throw new RuntimeException(markdownFile + " " + e.getMessage(), e);
     }

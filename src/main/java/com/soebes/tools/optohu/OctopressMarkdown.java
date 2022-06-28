@@ -20,27 +20,27 @@ interface OctopressMarkdown {
   DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
   DateTimeFormatter DATE_TIME_FORMATTER_WITHOUT_SECONDS = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-  Function<FileWithContent, Post> intoPost = fileWithContent -> {
-    var lines = fileWithContent.content().lines();
+  Function<FileAndContent, Post> intoPost = fileAndContent -> {
+    var lines = fileAndContent.content().lines();
     // check minimum size (number of fileAndLines) 7
     if (!lines.get(0).equals("---")) {
-      throw new IllegalStateException(fileWithContent.file() + " Beginning of the post is not correct missing ---");
+      throw new IllegalStateException(fileAndContent.file() + " Beginning of the post is not correct missing ---");
     }
 
     if (!lines.get(1).equals("layout: post")) {
-      throw new IllegalStateException(fileWithContent.file() + " layout: post Not found.");
+      throw new IllegalStateException(fileAndContent.file() + " layout: post Not found.");
     }
 
     var layout = Post.Layout.POST;
     var titleLine = TITLE.matcher(lines.get(2));
     if (!titleLine.matches()) {
-      throw new IllegalStateException(fileWithContent.file() + " Title not found");
+      throw new IllegalStateException(fileAndContent.file() + " Title not found");
     }
     var title = titleLine.group(1);
 
     var dateTimeLine = DATETIME.matcher(lines.get(3));
     if (!dateTimeLine.matches()) {
-      throw new IllegalStateException(fileWithContent.file() + " Date not found");
+      throw new IllegalStateException(fileAndContent.file() + " Date not found");
     }
 
     //FIXME: Convert to Instant / LocalDateTime ...
@@ -63,13 +63,13 @@ interface OctopressMarkdown {
     var categoryLine = lines.stream()
         .filter(s -> s.startsWith("categories:"))
         .findFirst()
-        .orElseThrow(() -> new IllegalStateException(fileWithContent.file() + " Categories not found"));
+        .orElseThrow(() -> new IllegalStateException(fileAndContent.file() + " Categories not found"));
 
     List<String> categories = List.of();
     if (categoryLine.contains("[")) {
       var categoriesMatcher = CATEGORIES.matcher(categoryLine);
       if (!categoriesMatcher.matches()) {
-        throw new IllegalStateException(fileWithContent.file() + " Categories matcher does not match.");
+        throw new IllegalStateException(fileAndContent.file() + " Categories matcher does not match.");
       }
       var categoriesStr = categoriesMatcher.group(1);
       var categoriesArr = categoriesStr.split(",");
@@ -77,14 +77,14 @@ interface OctopressMarkdown {
     }
 
     if (!lines.contains("---")) {
-      throw new IllegalStateException(fileWithContent.file() + " End marker not found");
+      throw new IllegalStateException(fileAndContent.file() + " End marker not found");
     }
 
     var indexOfEndMarker = lines.lastIndexOf("---");
 
     var postLines = lines.subList(indexOfEndMarker + 1, lines.size()).stream().toList();
 
-    return new Post(fileWithContent.file(), layout, postType, title, dateTime, categories, new Content(postLines));
+    return new Post(fileAndContent.file(), layout, postType, title, dateTime, categories, new Content(postLines));
   };
 
 }
