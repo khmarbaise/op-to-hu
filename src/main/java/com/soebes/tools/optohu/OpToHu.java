@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.PosixFilePermissions;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.EnumSet;
@@ -105,8 +106,10 @@ toc: true
 
     var lines = new ArrayList<String>();
     lines.add("---");
-    lines.add("title: " + post.title());
-    lines.add("date: " + post.publishingTime());
+    lines.add("title: \"" + post.title() + "\"");
+    // 2019-03-26T08:47:11+01:00
+    lines.add("date: " + DateTimeFormatter.ISO_DATE_TIME.format(post.publishingTime()));
+
     lines.add("lastmod: " + post.publishingTime());
     lines.add("categories:");
     post.categories().categoryTags().forEach(s -> lines.add("  - " + s));
