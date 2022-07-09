@@ -19,8 +19,8 @@ interface MPLink {
 
   String MAVEN_PLUGIN_BASE_LINK = "https://maven.apache.org/plugins/";
 
-  UnaryOperator<String> interpolate = s -> {
-    var matcher = PLACEHOLDER_PATTERN.matcher(s);
+  UnaryOperator<String> interpolate = line -> {
+    var matcher = PLACEHOLDER_PATTERN.matcher(line);
     var sb = new StringBuilder();
     while (matcher.find()) {
       var escaped = Matcher.quoteReplacement(
