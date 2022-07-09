@@ -66,23 +66,6 @@ interface OpToHu {
 
   }
 
-  /*
----
-draft: true
-date: 2018-02-07T18:30:00+06:00
-lastmod: 2022-01-05T02:30:00+06:00
-title: Jenkins
-authors: ["khmarbaise"]
-categories:
-  - schulungen
-tags:
-  - jenkins
-slug: jenkins
-toc: true
----
-
-   */
-
   static void writeSingleLine(Path file, String line) {
     try {
       Files.writeString(file, line + "\n", StandardOpenOption.APPEND);
