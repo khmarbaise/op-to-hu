@@ -89,7 +89,7 @@ interface OpToHu {
 
     var lines = new ArrayList<String>();
     lines.add("---");
-    lines.add("title: \"" + post.title() + "\"");
+    lines.add("title: " + String.join("\"", post.title()));
     // 2019-03-26T08:47:11+01:00
     lines.add("date: " + DateTimeFormatter.ISO_DATE_TIME.format(post.publishingTime()));
 
