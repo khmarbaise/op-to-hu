@@ -20,7 +20,7 @@
 
 == State
 
-* Working / personell usage.
+* Working / personal use.
 
 == Requirements
 
