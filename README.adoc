@@ -20,9 +20,9 @@
 
 == State
 
-
 == Requirements
 
-JDK17+
+* Maven 3.8.6+
+* JDK17+ (build and runtime.)
 
 
