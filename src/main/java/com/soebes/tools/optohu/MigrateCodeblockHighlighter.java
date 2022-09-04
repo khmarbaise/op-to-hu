@@ -8,7 +8,7 @@ interface MigrateCodeblockHighlighter {
 
   Pattern START_HIGHLIGTHER_PATTERN = Pattern.compile(
       "^" + "`?" + Pattern.quote("{%") + "\\s+" + "codeblock" + "\\s+" + "(.*)" + "\\s+" + "(.*?:.*?)" + "\\s+"
-          + Pattern.quote("%}"));
+      + Pattern.quote("%}"));
 
   // `{% codeblock Iterator Maven Plugin Configuration lang:xml %}
   UnaryOperator<String> filter = s -> {
